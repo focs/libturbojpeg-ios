@@ -61,9 +61,9 @@
 		427BF6981645BF4800BC3809 /* transupp.c in Sources */ = {isa = PBXBuildFile; fileRef = 427BF6921645BF4800BC3809 /* transupp.c */; };
 		427BF6991645BF4800BC3809 /* turbojpeg.c in Sources */ = {isa = PBXBuildFile; fileRef = 427BF6941645BF4800BC3809 /* turbojpeg.c */; };
 		427BF6D11645C1E900BC3809 /* jsimd_arm.c in Sources */ = {isa = PBXBuildFile; fileRef = 427BF6CF1645C1E900BC3809 /* jsimd_arm.c */; };
-		427BF6D51645D0BB00BC3809 /* libsimd-arm.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 427BF6B11645C08600BC3809 /* libsimd-arm.a */; };
-		427BF7501645DD3300BC3809 /* libjpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 427BF63C1645BD8C00BC3809 /* libjpeg.a */; };
 		427BF7591645E10800BC3809 /* jsimd_arm_neon.S in Sources */ = {isa = PBXBuildFile; fileRef = 427BF6CE1645C1E900BC3809 /* jsimd_arm_neon.S */; };
+		B46372151BD8E36000765D4D /* jsimd_arm64.c in Sources */ = {isa = PBXBuildFile; fileRef = B46372131BD8E24700765D4D /* jsimd_arm64.c */; };
+		B46372161BD8E36000765D4D /* jsimd_arm64_neon.S in Sources */ = {isa = PBXBuildFile; fileRef = B46372141BD8E24700765D4D /* jsimd_arm64_neon.S */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -76,7 +76,18 @@
 			outputFiles = (
 				"$(OBJECT_FILE_DIR_normal)/$(CURRENT_ARCH)/$(INPUT_FILE_BASE).o",
 			);
-			script = "\ncd \"$INPUT_FILE_DIR\"\n\nfor DIR in $HEADER_SEARCH_PATHS ; do\nINCLUDES=\"$INCLUDES -I$(echo \"$DIR\"|sed -e 's/ /\\\\ /g;')\"\ndone\n\nfor DEFINE in $GCC_PREPROCESSOR_DEFINITIONS ; do\nDEFINES=\"$DEFINES -D$DEFINE\"\ndone;\n\nchmod a+x $SRCROOT/scripts/gas-preprocessor.pl\n\n\"$SRCROOT/scripts/gas-preprocessor.pl\" xcrun llvm-gcc-4.2 -x assembler-with-cpp -arch $CURRENT_ARCH -fmessage-length=0 -pipe -fpascal-strings -O$GCC_OPTIMIZATION_LEVEL  $DEFINES -isysroot \"$SDKROOT\" -gdwarf-2 -mthumb -miphoneos-version-min=$IPHONEOS_DEPLOYMENT_TARGET -iquote ./simd-arm-generated-files.hmap -I./simd-arm-own-target-headers.hmap -I./simd-arm-all-target-headers.hmap -iquote ./simd-arm-project-headers.hmap $INCLUDES -I./DerivedSources/armv7 -I./DerivedSources -F.. -c \"$INPUT_FILE_NAME\" -o \"$OBJECT_FILE_DIR_normal/$CURRENT_ARCH/$INPUT_FILE_BASE.o\"\n\n";
+			script = "\ncd \"$INPUT_FILE_DIR\"\n\nfor DIR in $HEADER_SEARCH_PATHS ; do\nINCLUDES=\"$INCLUDES -I$(echo \"$DIR\"|sed -e 's/ /\\\\ /g;')\"\ndone\n\nfor DEFINE in $GCC_PREPROCESSOR_DEFINITIONS ; do\nDEFINES=\"$DEFINES -D$DEFINE\"\ndone;\n\nchmod a+x $SRCROOT/scripts/gas-preprocessor.pl\n\n\"$SRCROOT/scripts/gas-preprocessor.pl\" xcrun /usr/bin/llvm-gcc -x assembler-with-cpp -arch $CURRENT_ARCH -fmessage-length=0 -pipe -fpascal-strings -O$GCC_OPTIMIZATION_LEVEL  $DEFINES -isysroot \"$SDKROOT\" -gdwarf-2 -mthumb -miphoneos-version-min=$IPHONEOS_DEPLOYMENT_TARGET -iquote ./simd-arm-generated-files.hmap -I./simd-arm-own-target-headers.hmap -I./simd-arm-all-target-headers.hmap -iquote ./simd-arm-project-headers.hmap $INCLUDES -I./DerivedSources/armv7 -I./DerivedSources -F.. -c \"$INPUT_FILE_NAME\" -o \"$OBJECT_FILE_DIR_normal/$CURRENT_ARCH/$INPUT_FILE_BASE.o\"\n\n";
+		};
+		B46372171BD8E4F500765D4D /* PBXBuildRule */ = {
+			isa = PBXBuildRule;
+			compilerSpec = com.apple.compilers.proxy.script;
+			filePatterns = "*.S";
+			fileType = pattern.proxy;
+			isEditable = 1;
+			outputFiles = (
+				"$(OBJECT_FILE_DIR_normal)/$(CURRENT_ARCH)/$(INPUT_FILE_BASE).o",
+			);
+			script = "cd \"$INPUT_FILE_DIR\"\n\nfor DIR in $HEADER_SEARCH_PATHS ; do\nINCLUDES=\"$INCLUDES -I$(echo \"$DIR\"|sed -e 's/ /\\\\ /g;')\"\ndone\n\nfor DEFINE in $GCC_PREPROCESSOR_DEFINITIONS ; do\nDEFINES=\"$DEFINES -D$DEFINE\"\ndone;\n\nchmod a+x $SRCROOT/scripts/gas-preprocessor.pl\n\n\"$SRCROOT/scripts/gas-preprocessor.pl\" xcrun /usr/bin/llvm-gcc -x assembler-with-cpp -arch $CURRENT_ARCH -fmessage-length=0 -pipe -fpascal-strings -O$GCC_OPTIMIZATION_LEVEL  $DEFINES -isysroot \"$SDKROOT\" -gdwarf-2 -mthumb -miphoneos-version-min=$IPHONEOS_DEPLOYMENT_TARGET -iquote ./simd-arm-generated-files.hmap -I./simd-arm-own-target-headers.hmap -I./simd-arm-all-target-headers.hmap -iquote ./simd-arm-project-headers.hmap $INCLUDES -I./DerivedSources/arm64 -I./DerivedSources -F.. -c \"$INPUT_FILE_NAME\" -o \"$OBJECT_FILE_DIR_normal/$CURRENT_ARCH/$INPUT_FILE_BASE.o\"\n";
 		};
 /* End PBXBuildRule section */
 
@@ -95,7 +106,26 @@
 			remoteGlobalIDString = 427BF6B01645C08600BC3809;
 			remoteInfo = "simd-arm";
 		};
+		B46372181BD9004A00765D4D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 427BF5DF1645B6F400BC3809 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B46372071BD8E12A00765D4D;
+			remoteInfo = "simd-arm64";
+		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B46372061BD8E12A00765D4D /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		423730051646F7F90022C8FB /* jaricom.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = jaricom.c; path = libjpeg/arithmetric_coding/jaricom.c; sourceTree = "<group>"; };
@@ -227,6 +257,10 @@
 		427BF7041645D11E00BC3809 /* jsimdcfg.inc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jsimdcfg.inc.h; path = "libturbojpeg/simd-i386/jsimdcfg.inc.h"; sourceTree = "<group>"; };
 		427BF7051645D11E00BC3809 /* jsimdcpu.asm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm.asm; name = jsimdcpu.asm; path = "libturbojpeg/simd-i386/jsimdcpu.asm"; sourceTree = "<group>"; };
 		427BF7061645D11E00BC3809 /* jsimdext.inc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.pascal; name = jsimdext.inc; path = "libturbojpeg/simd-i386/jsimdext.inc"; sourceTree = "<group>"; };
+		B46372081BD8E12A00765D4D /* libsimd-arm64.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libsimd-arm64.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B46372121BD8E24700765D4D /* jsimd.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = jsimd.h; sourceTree = "<group>"; };
+		B46372131BD8E24700765D4D /* jsimd_arm64.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = jsimd_arm64.c; sourceTree = "<group>"; };
+		B46372141BD8E24700765D4D /* jsimd_arm64_neon.S */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.asm; path = jsimd_arm64_neon.S; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -234,8 +268,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				427BF7501645DD3300BC3809 /* libjpeg.a in Frameworks */,
-				427BF6D51645D0BB00BC3809 /* libsimd-arm.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		B46372051BD8E12A00765D4D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +305,7 @@
 				427BF63C1645BD8C00BC3809 /* libjpeg.a */,
 				427BF6811645BF1200BC3809 /* libturbojpeg.a */,
 				427BF6B11645C08600BC3809 /* libsimd-arm.a */,
+				B46372081BD8E12A00765D4D /* libsimd-arm64.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -345,6 +385,7 @@
 		427BF5FB1645BD1B00BC3809 /* simd */ = {
 			isa = PBXGroup;
 			children = (
+				B46372111BD8E24700765D4D /* arm64 */,
 				427BF6D61645D0DA00BC3809 /* i386 */,
 				427BF6BD1645C0D100BC3809 /* arm */,
 			);
@@ -457,6 +498,17 @@
 			name = i386;
 			sourceTree = "<group>";
 		};
+		B46372111BD8E24700765D4D /* arm64 */ = {
+			isa = PBXGroup;
+			children = (
+				B46372121BD8E24700765D4D /* jsimd.h */,
+				B46372131BD8E24700765D4D /* jsimd_arm64.c */,
+				B46372141BD8E24700765D4D /* jsimd_arm64_neon.S */,
+			);
+			name = arm64;
+			path = "libturbojpeg/simd-arm64";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -486,6 +538,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				B46372191BD9004A00765D4D /* PBXTargetDependency */,
 				427BF6D41645D0B400BC3809 /* PBXTargetDependency */,
 				427BF68E1645BF3600BC3809 /* PBXTargetDependency */,
 			);
@@ -510,6 +563,24 @@
 			productReference = 427BF6B11645C08600BC3809 /* libsimd-arm.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		B46372071BD8E12A00765D4D /* simd-arm64 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B46372101BD8E12A00765D4D /* Build configuration list for PBXNativeTarget "simd-arm64" */;
+			buildPhases = (
+				B46372041BD8E12A00765D4D /* Sources */,
+				B46372051BD8E12A00765D4D /* Frameworks */,
+				B46372061BD8E12A00765D4D /* CopyFiles */,
+			);
+			buildRules = (
+				B46372171BD8E4F500765D4D /* PBXBuildRule */,
+			);
+			dependencies = (
+			);
+			name = "simd-arm64";
+			productName = "simd-arm64";
+			productReference = B46372081BD8E12A00765D4D /* libsimd-arm64.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -518,6 +589,11 @@
 			attributes = {
 				LastUpgradeCheck = 0450;
 				ORGANIZATIONNAME = "Johannes Schriewer";
+				TargetAttributes = {
+					B46372071BD8E12A00765D4D = {
+						CreatedOnToolsVersion = 7.0.1;
+					};
+				};
 			};
 			buildConfigurationList = 427BF5E21645B6F400BC3809 /* Build configuration list for PBXProject "libjpeg-turbo-ios" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -534,6 +610,7 @@
 				427BF63B1645BD8C00BC3809 /* jpeg */,
 				427BF6801645BF1200BC3809 /* turbojpeg */,
 				427BF6B01645C08600BC3809 /* simd-arm */,
+				B46372071BD8E12A00765D4D /* simd-arm64 */,
 			);
 		};
 /* End PBXProject section */
@@ -549,6 +626,7 @@
 			);
 			outputPaths = (
 				"$(SRCROOT)/lib/libturbojpeg-arm.a",
+				"$(SRCROOT)/lib/libturbojpeg-arm64.a",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -634,6 +712,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		B46372041BD8E12A00765D4D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B46372151BD8E36000765D4D /* jsimd_arm64.c in Sources */,
+				B46372161BD8E36000765D4D /* jsimd_arm64_neon.S in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -646,6 +733,11 @@
 			isa = PBXTargetDependency;
 			target = 427BF6B01645C08600BC3809 /* simd-arm */;
 			targetProxy = 427BF6D31645D0B400BC3809 /* PBXContainerItemProxy */;
+		};
+		B46372191BD9004A00765D4D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = B46372071BD8E12A00765D4D /* simd-arm64 */;
+			targetProxy = B46372181BD9004A00765D4D /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -671,7 +763,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 			};
@@ -691,7 +783,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -700,13 +792,11 @@
 		427BF6481645BD8C00BC3809 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv7,
-					armv7s,
-				);
+				ARCHS = "$(ARCHS_STANDARD)";
 				DSTROOT = /tmp/libjpeg.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -716,13 +806,11 @@
 		427BF6491645BD8C00BC3809 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv7,
-					armv7s,
-				);
+				ARCHS = "$(ARCHS_STANDARD)";
 				DSTROOT = /tmp/libjpeg.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				GCC_PREFIX_HEADER = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -732,15 +820,13 @@
 		427BF68B1645BF1200BC3809 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv7,
-					armv7s,
-				);
+				ARCHS = "$(ARCHS_STANDARD)";
 				DSTROOT = /tmp/libturbojpeg.dst;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/libturbojpeg\"",
 					"\"$(SRCROOT)/libjpeg\"",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -750,15 +836,13 @@
 		427BF68C1645BF1200BC3809 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv7,
-					armv7s,
-				);
+				ARCHS = "$(ARCHS_STANDARD)";
 				DSTROOT = /tmp/libturbojpeg.dst;
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/libturbojpeg\"",
 					"\"$(SRCROOT)/libjpeg\"",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -768,44 +852,104 @@
 		427BF6BB1645C08600BC3809 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv7,
-					armv7s,
-				);
+				ARCHS = armv7;
 				DSTROOT = /tmp/simd_arm.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/libturbojpeg",
 					"$(SRCROOT)/libjpeg",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = armv7;
 			};
 			name = Debug;
 		};
 		427BF6BC1645C08600BC3809 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					armv7,
-					armv7s,
-				);
+				ARCHS = armv7;
 				DSTROOT = /tmp/simd_arm.dst;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_UNINITIALIZED_AUTOS = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/libturbojpeg",
 					"$(SRCROOT)/libjpeg",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				VALID_ARCHS = armv7;
+			};
+			name = Release;
+		};
+		B463720E1BD8E12A00765D4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VALID_ARCHS = arm64;
+			};
+			name = Debug;
+		};
+		B463720F1BD8E12A00765D4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = arm64;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_LDFLAGS = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				VALID_ARCHS = arm64;
 			};
 			name = Release;
 		};
@@ -847,6 +991,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		B46372101BD8E12A00765D4D /* Build configuration list for PBXNativeTarget "simd-arm64" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B463720E1BD8E12A00765D4D /* Debug */,
+				B463720F1BD8E12A00765D4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
