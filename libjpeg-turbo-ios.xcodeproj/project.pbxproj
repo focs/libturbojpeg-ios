@@ -205,7 +205,7 @@
 		427BF6951645BF4800BC3809 /* turbojpeg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = turbojpeg.h; path = libturbojpeg/turbojpeg.h; sourceTree = "<group>"; };
 		427BF69B1645BF7A00BC3809 /* jinclude.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jinclude.h; path = libturbojpeg/jinclude.h; sourceTree = "<group>"; };
 		427BF69C1645BFE000BC3809 /* tjutil.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = tjutil.h; path = libturbojpeg/tjutil.h; sourceTree = "<group>"; };
-		427BF6B11645C08600BC3809 /* libsimd-arm.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libsimd-arm.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		427BF6B11645C08600BC3809 /* libsimd-armv7.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libsimd-armv7.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		427BF6CC1645C1DB00BC3809 /* jsimd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jsimd.h; path = libturbojpeg/jsimd.h; sourceTree = "<group>"; };
 		427BF6CD1645C1DB00BC3809 /* jsimddct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = jsimddct.h; path = libturbojpeg/jsimddct.h; sourceTree = "<group>"; };
 		427BF6CE1645C1E900BC3809 /* jsimd_arm_neon.S */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; name = jsimd_arm_neon.S; path = "libturbojpeg/simd-arm/jsimd_arm_neon.S"; sourceTree = "<group>"; };
@@ -304,7 +304,7 @@
 			children = (
 				427BF63C1645BD8C00BC3809 /* libjpeg.a */,
 				427BF6811645BF1200BC3809 /* libturbojpeg.a */,
-				427BF6B11645C08600BC3809 /* libsimd-arm.a */,
+				427BF6B11645C08600BC3809 /* libsimd-armv7.a */,
 				B46372081BD8E12A00765D4D /* libsimd-arm64.a */,
 			);
 			name = Products;
@@ -533,7 +533,6 @@
 			buildPhases = (
 				427BF67D1645BF1200BC3809 /* Sources */,
 				427BF67E1645BF1200BC3809 /* Frameworks */,
-				427BF7451645DAF900BC3809 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -547,9 +546,9 @@
 			productReference = 427BF6811645BF1200BC3809 /* libturbojpeg.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		427BF6B01645C08600BC3809 /* simd-arm */ = {
+		427BF6B01645C08600BC3809 /* simd-armv7 */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 427BF6BA1645C08600BC3809 /* Build configuration list for PBXNativeTarget "simd-arm" */;
+			buildConfigurationList = 427BF6BA1645C08600BC3809 /* Build configuration list for PBXNativeTarget "simd-armv7" */;
 			buildPhases = (
 				427BF6AD1645C08600BC3809 /* Sources */,
 			);
@@ -558,9 +557,9 @@
 			);
 			dependencies = (
 			);
-			name = "simd-arm";
+			name = "simd-armv7";
 			productName = "simd-arm";
-			productReference = 427BF6B11645C08600BC3809 /* libsimd-arm.a */;
+			productReference = 427BF6B11645C08600BC3809 /* libsimd-armv7.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		B46372071BD8E12A00765D4D /* simd-arm64 */ = {
@@ -609,31 +608,11 @@
 			targets = (
 				427BF63B1645BD8C00BC3809 /* jpeg */,
 				427BF6801645BF1200BC3809 /* turbojpeg */,
-				427BF6B01645C08600BC3809 /* simd-arm */,
+				427BF6B01645C08600BC3809 /* simd-armv7 */,
 				B46372071BD8E12A00765D4D /* simd-arm64 */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		427BF7451645DAF900BC3809 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(TARGET_BUILD_DIR)/libturbojpeg.a",
-			);
-			outputPaths = (
-				"$(SRCROOT)/lib/libturbojpeg-arm.a",
-				"$(SRCROOT)/lib/libturbojpeg-arm64.a",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "mkdir -p \"$(dirname \"$SCRIPT_INPUT_FILE_0\")/lib\"\ncp \"$SCRIPT_INPUT_FILE_0\" \"$SCRIPT_OUTPUT_FILE_0\"";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		427BF6381645BD8C00BC3809 /* Sources */ = {
@@ -731,7 +710,7 @@
 		};
 		427BF6D41645D0B400BC3809 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 427BF6B01645C08600BC3809 /* simd-arm */;
+			target = 427BF6B01645C08600BC3809 /* simd-armv7 */;
 			targetProxy = 427BF6D31645D0B400BC3809 /* PBXContainerItemProxy */;
 		};
 		B46372191BD9004A00765D4D /* PBXTargetDependency */ = {
@@ -983,7 +962,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		427BF6BA1645C08600BC3809 /* Build configuration list for PBXNativeTarget "simd-arm" */ = {
+		427BF6BA1645C08600BC3809 /* Build configuration list for PBXNativeTarget "simd-armv7" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				427BF6BB1645C08600BC3809 /* Debug */,
@@ -999,6 +978,7 @@
 				B463720F1BD8E12A00765D4D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
